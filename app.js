@@ -1,8 +1,11 @@
 const express = require('express')
+const Handlebars = require('handlebars');
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const path = require('path')
 require('dotenv').config()
+
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 
 const db = require('./config/database')
 
@@ -12,6 +15,16 @@ db.authenticate()
     .catch(err => console.log('db.authenticate error: ' + err))
 
 const app = express()
+
+// Handlebars
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main',
+    handlebars: allowInsecurePrototypeAccess(Handlebars)
+}))
+app.set('view engine', 'handlebars')
+
+// Set static folder
+app.use(express.static(path.join(__dirname,'public')))
 
 // Gig routes
 app.use('/gigs', require('./routes/gigs'))
