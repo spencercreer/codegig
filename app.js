@@ -1,3 +1,4 @@
+// Require dependencies
 const express = require('express')
 const Handlebars = require('handlebars');
 const exphbs = require('express-handlebars')
@@ -35,6 +36,6 @@ app.get('/', (req, res) => res.render('index', { layout: 'landing' }))
 // Gig routes
 app.use('/gigs', require('./routes/gigs'))
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 
 app.listen(PORT, console.log(`Server listening to http://localhost:${PORT}`))
